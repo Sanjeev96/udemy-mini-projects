@@ -1,0 +1,11 @@
+.container {
+  margin-top: 30px;
+}
+
+.oddClass {
+  color: blueviolet;
+}
+
+.evenClass {
+  color: red
+}
