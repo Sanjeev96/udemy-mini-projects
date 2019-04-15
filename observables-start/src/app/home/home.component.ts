@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Observable, interval, Observer, Subscription } from 'rxjs';
-
+import 'rxjs/Rx';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -14,7 +14,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // interval; is; a; utility; function used in rxj;
-    const myNum = interval(1000);
+    const myNum = interval(1000)
+    .map(
+      data => {
+      return data * 5;
+    });
 
     this.numberObsSub = myNum.subscribe(number => {
       console.log('this is the number', number);
