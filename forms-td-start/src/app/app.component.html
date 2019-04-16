@@ -34,11 +34,19 @@
         </div>
         <div class="form-group">
           <label for="secret">Secret Questions</label>
-          <select id="secret" class="form-control" ngModel name="secret">
-            <option value="pet">Your first Pet?</option>
+
+          <!--THE EXAMPLE BELOW SHOWS HOW TO SET DEFAULT DISPLAY USING TWO WAY BINDING AND VIEWCHILD-->
+          <!-- <select id="secret" class="form-control" ([ngModel])="pet" name="secret"> -->
+
+          <select id="secret" class="form-control" [ngModel]="defaultQ" name="secret">
+            <option #_pet value="pet">Your first Pet?</option>
             <option value="teacher">Your first teacher?</option>
           </select>
         </div>
+        <div class="form-group">
+          <textarea name="qA" rows="3" [(ngModel)]="answer" class="form-control"></textarea>
+        </div>
+        <p>your reply {{ answer }}</p>
         <!-- can disable button based on form (#Registerform) state -->
         <button class="btn btn-primary" type="submit" [disabled]="!Registerform.valid">Submit</button>
       </form>

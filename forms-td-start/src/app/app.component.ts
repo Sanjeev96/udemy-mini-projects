@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, OnInit } from '@angular/core';
 import { Form, NgForm } from '@angular/forms';
 
 @Component({
@@ -6,8 +6,13 @@ import { Form, NgForm } from '@angular/forms';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   @ViewChild('Registerform') registerform: NgForm;
+  // @ViewChild('_pet') pet: ElementRef;
+  defaultQ = 'pet';
+  public answer = '';
+
+  ngOnInit() {}
 
   suggestUserName() {
     const suggestedName = 'Superuser';
