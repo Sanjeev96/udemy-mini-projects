@@ -1,9 +1,9 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-                                                <!-- # is usedto ref the form and the ngForm used to turn form into form Object-->
+      <!-- # is usedto ref the form and the ngForm used to turn form into form Object-->
       <form (ngSubmit)="onSubmit()" #Registerform="ngForm">
-        <div id="user-data">
+        <div id="user-data" ngModelGroup="UserData" #userData="ngModelGroup">
           <div class="form-group">
             <label for="username">Username</label>
             <input
@@ -15,41 +15,105 @@
               required
             />
           </div>
-          <button class="btn btn-default" type="button">
+          <button
+            class="btn btn-default"
+            type="button"
+            (click)="suggestUserName()"
+          >
             Suggest a Username
           </button>
           <div class="form-group">
-            <label for="email">Mail</label>
+            <label for="email">Email</label>
             <input
               type="email"
               id="email"
               class="form-control"
               ngModel
               name="email"
-              required email
+              required
+              email
               #email="ngModel"
             />
-            <span class="help-block helptxt" *ngIf="!email.valid && email.touched">Please enter a valid email</span>
+            <span class=" helptxt" *ngIf="!email.valid && email.touched"
+              >Please enter a valid email</span
+            >
           </div>
         </div>
-        <div class="form-group">
-          <label for="secret">Secret Questions</label>
+        <p *ngIf="!userData.valid && userData.touched">User Data is invalid.</p>
+        <div ngModelGroup="UserSecret" #userSecret="ngModelGroup">
+          <div class="form-group">
+            <label for="secret">Secret Questions</label>
 
-          <!--THE EXAMPLE BELOW SHOWS HOW TO SET DEFAULT DISPLAY USING TWO WAY BINDING AND VIEWCHILD-->
-          <!-- <select id="secret" class="form-control" ([ngModel])="pet" name="secret"> -->
+            <!--THE EXAMPLE BELOW SHOWS HOW TO SET DEFAULT DISPLAY USING TWO WAY BINDING AND VIEWCHILD  doesnt work because in log value of secret not displaying even though it does on web page form-->
+            <!-- <select id="secret" class="form-control" ([ngModel])="pet" name="secret"> -->
 
-          <select id="secret" class="form-control" [ngModel]="defaultQ" name="secret">
-            <option #_pet value="pet">Your first Pet?</option>
-            <option value="teacher">Your first teacher?</option>
-          </select>
+            <select
+              id="secret"
+              class="form-control"
+              [ngModel]="defaultQ"
+              name="secretQ"
+            >
+              <option #_pet value="pet">Your first Pet?</option>
+              <option value="teacher">Your first teacher?</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <textarea
+              name="secretA"
+              rows="3"
+              [(ngModel)]="answer"
+              class="form-control"
+            ></textarea>
+          </div>
+          <p>your reply: {{ answer }}</p>
         </div>
-        <div class="form-group">
-          <textarea name="qA" rows="3" [(ngModel)]="answer" class="form-control"></textarea>
+        <div class="radio" *ngFor="let gender of genders">
+          <label>
+            <input
+              type="radio"
+              name="gender"
+              ngModel
+              [value]="gender"
+              required
+            />
+            {{ gender }}
+          </label>
         </div>
-        <p>your reply {{ answer }}</p>
         <!-- can disable button based on form (#Registerform) state -->
-        <button class="btn btn-primary" type="submit" [disabled]="!Registerform.valid">Submit</button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="!Registerform.valid"
+        >
+          Submit
+        </button>
       </form>
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <br />
+          <hr />
+          <h2>Account information Summary</h2>
+          <div class="row" *ngIf="submitted">
+            <div class="col-md-12 col-lg-12 offset-3">
+              <p>
+                Username: <strong>{{ user.username }}</strong>
+              </p>
+              <p>
+                Email: <strong>{{ user.email }}</strong>
+              </p>
+              <p>
+                Secret Question: <strong>{{ user.secretQ  }}</strong>
+              </p>
+              <p>
+                Secret Answer: <strong>{{ user.secretA }}</strong>
+              </p>
+              <p>
+                Gender: <strong>{{ user.gender }}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
