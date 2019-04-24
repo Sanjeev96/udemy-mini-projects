@@ -51,6 +51,7 @@ export class AppComponent implements OnInit {
       // 'patchValue overrides parts of the form'
       UserData: {
         username: randomUsername
+        
       }
     });
   }

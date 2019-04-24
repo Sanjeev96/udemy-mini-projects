@@ -1,7 +1,79 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <form #subForm="ngForm"></form>
+      <form (ngSubmit)="onSubmit()" #subForm="ngForm">
+        <div ngModelGroup="UserData" #userData="ngModelGroup">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              name="email"
+              class="form-control"
+              email
+              #email="ngModel"
+              ngModel
+              required
+            />
+          </div>
+          <span *ngIf="!email.valid && email.touched" class="help-block"
+            >Please check email is valid format</span
+          >
+          <div class="form-group">
+            <label for="subscriptionType">Subscription type</label>
+            <select name="subTypes" class="form-control" [ngModel]="defaultSub">
+              <option #_pet value="Basic">Basic</option>
+              <option #_pet value="Advanced">Advanced</option>
+              <option #_pet value="Pro">Pro</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              name="password"
+              class="form-control"
+              ngModel
+              required
+            />
+          </div>
+          <button
+            class="btn btn-primary"
+            type="submit"
+            [disabled]="!subForm.valid"
+          >
+            Submit
+          </button>
+          <span *ngIf="!subForm.valid && subForm.touched" class="help-block"
+            >Please Form fields are Valid</span
+          >
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <br />
+          <hr />
+          <h2>Account information Summary</h2>
+          <div class="row" *ngIf="submitted">
+            <div class="col-md-12 col-lg-12 offset-3">
+              <p>
+                Email: <strong>{{ user.email }}</strong>
+              </p>
+              <p>
+                SubScription Type: <strong>{{ user.subTypes }}</strong>
+              </p>
+              <p>
+                Password: <strong>{{ user.password }}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
       <!-- Add a Form with the following Inputs (and Validators)
            1) Mail address (should not be empty and should be an email address)
            2) A Dropdown which allows the user to select from three different Subscriptions ("Basic", "Advanced", "Pro")
@@ -14,6 +86,3 @@
            Upon submitting the form, you should simply print the Value of the Form to the Console.
            Optionally, display it in your template.
       -->
-    </div>
-  </div>
-</div>
