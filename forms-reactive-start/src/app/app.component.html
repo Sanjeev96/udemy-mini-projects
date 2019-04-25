@@ -5,39 +5,38 @@
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
       <!-- FORMGEROUP TELLS HTML TO USE MY TS FORM NOT THE HTML ONE -->
       <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            id="username"
-            formControlName="username"
-            class="form-control"
-          />
-          <span
-            *ngIf="
-              !registerForm.get('username').valid &&
-              registerForm.get('username').touched
-            "
-            class="help-block"
-            >Please enter Username</span
-          >
-        </div>
-        <div class="form-group">
-          <label for="email">email</label>
-          <input
-            type="text"
-            id="email"
-            formControlName="email"
-            class="form-control"
-          />
-          <span
-          *ngIf="
-            !registerForm.get('email').valid &&
-            registerForm.get('email').touched
-          "
-          class="help-block"
-          >Please enter Email</span
-        >
+        <div formGroupName="userData">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              class="form-control"
+            />
+
+            <span class="help-block" *ngIf="!registerForm.get('userData.username').valid && registerForm.get('userData.username').touched">
+              <span *ngIf="registerForm.get('userData.username').errors['required']" class="help-block">This is required</span>
+              <span *ngIf="registerForm.get('userData.username').errors['nameIsForbidden']" class="help-block">This is invalid</span>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="email">email</label>
+            <input
+              type="text"
+              id="email"
+              formControlName="email"
+              class="form-control"
+            />
+            <span
+              *ngIf="
+                !registerForm.get('userData.email').valid &&
+                registerForm.get('userData.email').touched
+              "
+              class="help-block"
+              >Please enter Email</span
+            >
+          </div>
         </div>
         <div class="radio" *ngFor="let gender of genders">
           <label>
@@ -46,7 +45,36 @@
             }}
           </label>
         </div>
-        <button class="btn btn-primary" type="submit">Submit</button>
+        <div formArrayName="hobbies">
+          <br />
+          <h4>Your Hobbies</h4>
+          <button
+            class="btn btn-default"
+            (click)="onAddHobbies()"
+            type="button"
+          >
+            Add Hobby
+          </button>
+          <div class="form-group">
+            <input
+              type="text"
+              class="form-control"
+              *ngFor="
+                let hobbyControl of registerForm.get('hobbies').controls;
+                let i = index
+              "
+              [formControlName]="i"
+            />
+          </div>
+        </div>
+        <br />
+        <button
+          [disabled]="!registerForm.valid"
+          class="btn btn-primary"
+          type="submit"
+        >
+          Submit
+        </button>
       </form>
     </div>
   </div>
