@@ -42,17 +42,13 @@ export class AppComponent implements OnInit {
       console.log('status', status);
     });
 
-
-    this.registerForm.patchValue({ //SET VALUE update the entire form, PATCH VALUE update part of the form
+    this.registerForm.patchValue({
+      //SET VALUE update the entire form, PATCH VALUE update part of the form
       userData: {
         username: 'abc'
       }
     });
   }
-
-
-
-
 
   onAddHobbies() {
     const control = new FormControl(null, Validators.required);
@@ -60,6 +56,9 @@ export class AppComponent implements OnInit {
   }
 
   onSubmit() {
+    this.registerForm.reset({
+      gender: 'male'
+    });
     this.submitted = true;
     console.log(this.registerForm);
   }
@@ -87,6 +86,4 @@ export class AppComponent implements OnInit {
     });
     return promise;
   }
-
-
 }
