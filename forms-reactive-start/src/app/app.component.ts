@@ -41,7 +41,18 @@ export class AppComponent implements OnInit {
     this.registerForm.statusChanges.subscribe(status => {
       console.log('status', status);
     });
+
+
+    this.registerForm.patchValue({ //SET VALUE update the entire form, PATCH VALUE update part of the form
+      userData: {
+        username: 'abc'
+      }
+    });
   }
+
+
+
+
 
   onAddHobbies() {
     const control = new FormControl(null, Validators.required);
@@ -76,4 +87,6 @@ export class AppComponent implements OnInit {
     });
     return promise;
   }
+
+
 }
