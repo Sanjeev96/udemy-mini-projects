@@ -29,10 +29,8 @@
               class="form-control"
             />
             <span *ngIf="!registerForm.get('userData.email').valid && registerForm.get('userData.email').touched" class="help-block" >
-                
                 <span *ngIf="registerForm.get('userData.email').errors['emailIsForbidden']">Email band</span>
                 <span *ngIf="registerForm.get('userData.email').errors['required']">Field Required</span>
-                enter email
             </span>
           </div>
         </div>
