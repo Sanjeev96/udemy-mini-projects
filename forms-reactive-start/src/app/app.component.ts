@@ -28,11 +28,18 @@ export class AppComponent implements OnInit {
             Validators.required,
             Validators.email
           ],
-          this.forbiddenEMails// dont need to do bond.this because foriddenEmails not called in html only validation through email: new FormControl
+          this.forbiddenEMails // dont need to do bond.this because foriddenEmails not called in html only validation through email: new FormControl
         ) // custom validator) 3rd arg is for async validators
       }),
       gender: new FormControl('male', Validators.required),
       hobbies: new FormArray([])
+    });
+    this.registerForm.valueChanges.subscribe(value => {
+      console.log('values', value);
+    });
+
+    this.registerForm.statusChanges.subscribe(status => {
+      console.log('status', status);
     });
   }
 
@@ -50,7 +57,7 @@ export class AppComponent implements OnInit {
   forbiddenNames(control: FormControl): { [s: string]: boolean } {
     if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
       // -1 IS INTERPRETED AS TRUE HENCE CHECKING IF ! THAN -1
-      return { 'nameIsForbidden': true };
+      return { nameIsForbidden: true };
     }
     return null;
   }
@@ -61,7 +68,7 @@ export class AppComponent implements OnInit {
       //set time is used to mimic a action like waiting on getting data from a service
       setTimeout(() => {
         if (control.value === 'test@gmail.com') {
-          res({ 'emailIsForbidden': true });
+          res({ emailIsForbidden: true });
         } else {
           res(null);
         }
