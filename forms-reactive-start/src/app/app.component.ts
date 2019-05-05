@@ -63,19 +63,17 @@ export class AppComponent implements OnInit {
     console.log(this.registerForm);
   }
 
-  //CUSTOM VALIDATION
+  //CUSTOM VALIDATION -- THIS METHOD USED IF RESPONSE IS NOT FROM SERVER 
   forbiddenNames(control: FormControl): { [s: string]: boolean } {
-    if (this.forbiddenUsernames.indexOf(control.value) !== -1) {
-      // -1 IS INTERPRETED AS TRUE HENCE CHECKING IF ! THAN -1
+    if (this.forbiddenUsernames.indexOf(control.value) !== -1) {  // -1 is seen as true, so the array must be ! than -1 to match array
       return { nameIsForbidden: true };
     }
     return null;
   }
 
-  //CUMSTOM VALIDATOR - ASYNC can wait for a response before returning invlaid or true
+  //CUMSTOM VALIDATOR - ASYNC can wait for a response before returning invlaid or true --- 99% OF THE TIME THIS WILL BE USED
   forbiddenEMails(control: FormControl): Promise<any> | Observable<any> {
-    const promise = new Promise<any>(res => {
-      //set time is used to mimic a action like waiting on getting data from a service
+    const promise = new Promise<any>(res => {  //set time is used to mimic a action like waiting on getting data from a service
       setTimeout(() => {
         if (control.value === 'test@gmail.com') {
           res({ emailIsForbidden: true });
