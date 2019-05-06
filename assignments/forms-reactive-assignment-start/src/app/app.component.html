@@ -56,6 +56,27 @@
         </button>
       </form>
 
+      <div class="row">
+        <div class="col-md-12 col-lg-12">
+          <br />
+          <hr />
+          <h2>Account information Summary</h2>
+          <div class="row" *ngIf="submitted">
+            <div class="col-md-12 col-lg-12 offset-3">
+              <p>
+                Project Name:<strong>{{info.projectName}}</strong>
+              </p>
+              <p>
+                Project Status: <strong>{{info.projectStatus}}</strong>
+              </p>
+              <p>
+                Email: <strong>{{info.email}}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!--
           Create a Form with the following Controls and Validators
           1) Project Name (should not be empty)

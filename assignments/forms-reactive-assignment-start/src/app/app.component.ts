@@ -2,6 +2,7 @@ import { Component, ViewChild, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { promise } from 'protractor';
+import { timingSafeEqual } from 'crypto';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,11 @@ export class AppComponent implements OnInit {
   projStatuses = ['Stable', 'Critical', 'Finished'];
   //forbiddenNamesList = ['test', 'test2', 'test3'];
   submitted = false;
+  public info = {
+    projectName: '',
+    projectStatus: '',
+    email: ''
+  };
 
   ngOnInit() {
     this.projForm = new FormGroup({
@@ -32,6 +38,9 @@ export class AppComponent implements OnInit {
   onSubmit() {
     this.submitted = true;
     console.log(this.projForm);
+    this.info.projectName = this.projForm.value.projName;
+    this.info.projectStatus = this.projForm.value.projStatus;
+    this.info.email = this.projForm.value.email;
   }
 
   // //CUSTOM VALIDATOR- NON ASYC - best used when data not coming from a sever
