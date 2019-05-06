@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
   // }
 
   //CUMSTOM VALIDATOR - ASYNC can wait for a response before returning invlaid or true -- 99% of the time this will be used
-  forbiddenProjName(control: FormControl) {
+  forbiddenProjName(control: FormControl): Promise<any> | Observable<any> {
     const promise = new Promise<any>(res => {
       setTimeout(() => {
         //set time is used to mimic a action like waiting on getting data from a service
