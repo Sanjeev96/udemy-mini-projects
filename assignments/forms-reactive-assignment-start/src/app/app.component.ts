@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
     const promise = new Promise<any>(res => {
       setTimeout(() => {
         //set time is used to mimic a action like waiting on getting data from a service
-        if (control.value === 'test') {
+        if (control.value === 'test' || control.value === 'example' || control.value === 'project') {
           res({ projNameIsForbidden: true });
         } else {
           res(null);
