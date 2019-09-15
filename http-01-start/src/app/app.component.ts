@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Post } from './posts.model';
+import { PostsService } from './posts.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -7,38 +11,58 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  loadedPosts = [];
+  loadedPosts: Post[] = [];
+  isFetching: boolean;
+  isDeleting: boolean;
+  postSub: Subscription;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private postsService: PostsService
+    ) {}
 
   ngOnInit() {
-    this.onFetchPosts();
+    this.postsService.fetchPosts().subscribe(posts => {
+      this.loadedPosts = posts;
+    });
+
+    this.postsService.refreshToken$.subscribe(() => {
+      this.onFetchPosts();
+    });
   }
 
-  onCreatePost(postData: { title: string; content: string }) {
-    // Send Http request
-    this.http
-      .post(
-        'https://httpcourse-9adb3.firebaseio.com/posts.json',
-        postData
-      ).subscribe(responseData => {
-        console.log(responseData);
+  onCreatePost(postData: Post) {
+    this.postsService.createANDStorePost(postData);
+    this.postsService.fetchPosts().subscribe(posts => {
+      setTimeout(() => {
+        this.isFetching = false;
+        this.loadedPosts = posts;
+      }, 1500);
       });
+
   }
 
   onFetchPosts() {
-    this.fetchData();
+    this.isFetching = true;
+    this.isDeleting = false;
+    this.postsService.fetchPosts().subscribe(posts => {
+    setTimeout(() => {
+      this.isFetching = false;
+      this.loadedPosts = posts;
+    }, 1500);
+    });
   }
 
   onClearPosts() {
-    // Send Http request
+    this.isDeleting = true;
+    this.postsService.clearPosts().subscribe(() => {
+      setTimeout(() => {
+        this.loadedPosts = [];
+      }, 1500
+      );
+    });
   }
 
 
-fetchData() {
-  this.http.get('https://httpcourse-9adb3.firebaseio.com/posts.json')
-  .subscribe(retrivedData => {
-    console.log(retrivedData);
-  });
-}
+
 }
