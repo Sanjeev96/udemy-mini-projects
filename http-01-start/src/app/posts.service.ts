@@ -16,13 +16,17 @@ export class PostsService {
     createANDStorePost(postData: Post) {
         this.http
         .post<{ name: string}>(
-          'https://httpcourse-9adb3.firebaseio.com/posts.json', postData)
+          'https://httpcourse-9adb3.firebaseio.com/posts.json', postData,
+          {
+            observe: 'response'
+          })
           .pipe(
             tap(() => {
              return this.refreshToken$.next();
             }),
           )
         .subscribe(responseData => {
+          console.warn(responseData.body);
             // Subscription needed even though value not used for sending data to server
         }, error => {
           this.sendError$.next(error); // observer passes over error to component via subject
