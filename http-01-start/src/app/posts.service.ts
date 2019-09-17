@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams, HttpEventType } from '@angular/common/http';
 import { map, tap, catchError } from 'rxjs/operators';
 import { Post } from './posts.model';
 import { Subject, throwError } from 'rxjs';
@@ -46,7 +46,6 @@ export class PostsService {
         })
         .pipe(
           map((retrivedData: {[key: string]: Post}) => {
-            // map helps to tranform the data, in this case helps for use of turning object into an array
             const postArray: Post[] = [];
             for (const key in retrivedData) {
               if (retrivedData.hasOwnProperty(key)) {// good pratice when using forin loop
@@ -62,7 +61,18 @@ export class PostsService {
     }
 
     clearPosts() {
-        return this.http.delete('https://httpcourse-9adb3.firebaseio.com/posts.json');
+        return this.http.delete('https://httpcourse-9adb3.firebaseio.com/posts.json',
+        {
+          observe: 'events',
+          responseType: 'json'
+        }
+        ).pipe(
+          tap( event => {
+            console.warn('deletion = ', event);
+            if (event.type === HttpEventType.Response) {
+              console.log(event.body);
+            }
+        }));
     }
 }
 
@@ -71,3 +81,6 @@ export class PostsService {
 // you to use other observable operators such as map, tap etc on the responseData...
 
 // tap can observe data, cannot modify like map does
+
+// map helps to tranform the retrived object data, in this case helps for use of turning object into an array
+
