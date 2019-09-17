@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { map, tap, catchError } from 'rxjs/operators';
 import { Post } from './posts.model';
 import { Subject, throwError } from 'rxjs';
@@ -30,7 +30,16 @@ export class PostsService {
     }
 
     fetchPosts() {
-        return this.http.get('https://httpcourse-9adb3.firebaseio.com/posts.json')
+        let searchParams = new HttpParams();
+        searchParams = searchParams.append('frameWork', 'angular');
+        searchParams = searchParams.append('unit-tests', 'jasmine');
+        return this.http.get('https://httpcourse-9adb3.firebaseio.com/posts.json',
+        {
+          headers: new HttpHeaders({
+            'custom-header' : 'getting data from firebase'
+          }),
+          params: searchParams
+        })
         .pipe(
           map((retrivedData: {[key: string]: Post}) => {
             // map helps to tranform the data, in this case helps for use of turning object into an array
