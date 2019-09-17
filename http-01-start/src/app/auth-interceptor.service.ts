@@ -1,10 +1,11 @@
 import { HttpInterceptor, HttpRequest, HttpHandler } from '@angular/common/http';
+import { tap } from 'rxjs/operators';
 
 export class AuthInterceptorService implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler) {
-        console.log('req on way'); // show for each req that leave the app i.e post, patch, get , delete etc...
-        return next.handle(req);
+        const modReq = req.clone({headers: req.headers.append('Auth', 'header on all requests set in one place')});
+        return next.handle(modReq);
     }
 }
 
