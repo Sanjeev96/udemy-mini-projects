@@ -65,6 +65,10 @@ export class AppComponent implements OnInit {
         this.loadedPosts = [];
       }, 1500
       );
+      setTimeout(() => {
+        alert('deletion successful');
+      }, 1700
+      );
     });
   }
 
