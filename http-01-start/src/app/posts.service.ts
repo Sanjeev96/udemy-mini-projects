@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { map, tap, catchError } from 'rxjs/operators';
 import { Post } from './posts.model';
-import { Subject } from 'rxjs';
+import { Subject, throwError } from 'rxjs';
 
 
 @Injectable()
 export class PostsService {
 
     public refreshToken$ = new Subject<void>(); // subject observable which emits value(s)
+    public sendError$ = new Subject<any>();
 
     constructor(private http: HttpClient) {}
 
@@ -23,6 +24,8 @@ export class PostsService {
           )
         .subscribe(responseData => {
             // Subscription needed even though value not used for sending data to server
+        }, error => {
+          this.sendError$.next(error); // observer passes over error to component via subject
         });
     }
 
@@ -39,6 +42,9 @@ export class PostsService {
             }
             return postArray; // to use in subscribption in here or component
           }
+          , catchError( errorRes => {
+            return throwError(errorRes);
+          }),
         ));
     }
 

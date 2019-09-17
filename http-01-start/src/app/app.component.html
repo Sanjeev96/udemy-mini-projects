@@ -54,16 +54,25 @@
       <ng-container *ngIf="loadedPosts.length < 1 && !isFetching">
           <p class="list-group-item" >No posts available!</p>
       </ng-container>
+      <div class="alert alert-danger" *ngIf="sendError">
+        <h2>Error cannot send</h2>
+        <p>{{sendError}}</p>
+        <button class="btn btn-danger" (click)="sendPostError()">Okay</button>
+      </div>
+      <div class="alert alert-danger" *ngIf="dataError">
+          <h2>Error unable to retrive data</h2>
+          <p>{{dataError}}</p>
+          <button class="btn btn-danger" (click)="getPostError()">Okay</button>
+        </div>
       <div *ngIf="loadedPosts.length > 0">
+          <h1 *ngIf="isFetching">Loading...</h1>
+          <h1 *ngIf="isDeleting">Deleting...</h1>
         <ul class="list-group" *ngFor="let posts of loadedPosts">
           <li class="list-group-item">
             <h3>{{posts.title}}</h3>
             <p>{{posts.content}}</p>
           </li>
         </ul>
-        <h1 *ngIf="isFetching">Loading...</h1>
-        <h1 *ngIf="isDeleting">Deleting...</h1>
-
       </div>
     </div>
   </div>
