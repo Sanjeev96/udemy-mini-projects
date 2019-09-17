@@ -47,28 +47,28 @@ export class AppComponent implements OnInit {
     this.isFetching = true;
     this.isDeleting = false;
     this.postsService.fetchPosts().subscribe(posts => {
-    setTimeout(() => {
-      this.isFetching = false;
-      this.loadedPosts = posts;
-    }, 1500);
-    }, error => {
-      this.isFetching = false;
-      this.dataError = error.message;
-      console.warn(this.dataError);
-    });
+      setTimeout(() => {
+        this.isFetching = false;
+        this.loadedPosts = posts;
+      }, 1500);
+        }, error => {
+          this.isFetching = false;
+          this.dataError = error.message;
+          console.warn(this.dataError);
+        });
   }
 
   onClearPosts() {
     this.isDeleting = true;
     this.postsService.clearPosts().subscribe(() => {
-      setTimeout(() => {
-        this.loadedPosts = [];
-      }, 1500
-      );
-      setTimeout(() => {
-        alert('deletion successful');
-      }, 1700
-      );
+        setTimeout(() => {
+          this.loadedPosts = [];
+        }, 1500
+        );
+        setTimeout(() => {
+          alert('deletion successful');
+        }, 1700
+        );
     });
   }
 
