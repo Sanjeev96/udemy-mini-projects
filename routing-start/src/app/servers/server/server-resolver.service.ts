@@ -18,3 +18,8 @@ export class ServerResolver implements Resolve<Server> {
     return this.serversService.getServer(+route.params['id']);
   }
 }
+
+
+//  intermediate code, which can be executed when a link has been clicked and before a component is loaded
+// Purpose is to check that data is available
+// Code that runs before a route loads to ensure data route depends on is there,

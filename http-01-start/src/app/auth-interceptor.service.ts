@@ -12,5 +12,5 @@ export class AuthInterceptorService implements HttpInterceptor {
 /** INTERCEPTORS:
  * Say you wish to authenticate your users.
  * You need to add a certain param or header to every outgoing and incoming request for the backend to read.
- * This method is used rather than having to add a param or header to every single request individually 
+ * This method is used rather than having to add a param or header to every single request individually
  */
